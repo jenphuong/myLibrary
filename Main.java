@@ -1,4 +1,6 @@
-import java.util.HashSet;
+package BooksReadDatabase;
+
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -12,56 +14,40 @@ public class Main {
     }
 }
 
-class Book {
-    private String title;
-    private String author;
-    
-    public Book(String name, String writer){
-        this.title = name;
-        this.author = writer;
-    }
-    
-    public String toString(){
-        return "Title: " + title + ". Author: " + author;
-    }
-}
-
-
-/**
- *
- * @author toortman
- */
 class Library {
-    private HashSet<Book> booksRead;
+    private HashMap<String, String> booksRead;
     private boolean endSessionNext;
     private Scanner reader;
     
     public Library(){
-        booksRead = new HashSet<Book>();
+        booksRead = new HashMap<>();
         endSessionNext = false;
         reader = new Scanner(System.in);
     }
     
     private void getBooksRead(){
-        for (Book novel : booksRead){
-            System.out.println(novel);
+        if (booksRead.isEmpty()){
+            System.out.println("No books read yet! Get reading!" + "\n");
+        }else{
+            for (String novel : booksRead.keySet()){
+               System.out.println(novel + " - Author: " + booksRead.get(novel));
+            }   
+            System.out.println("");
         }
     }
     
     private void addBook(String title, String author) {
-        Book newBook = new Book(title, author);
-        if (!booksRead.contains(newBook)){
-            booksRead.add(newBook);
-            System.out.println("Book added! Great job reading!");
+        if (!booksRead.containsKey(title)){
+            booksRead.put(title, author);
+            System.out.println("Book added! Great job reading!" + "\n");
         }
         else{
-            System.out.println("Error: Book has already been read - nice try!");
-        }
+            System.out.println("Error: Book has already been read - nice try!" + "\n");
+        }   
     }
     
-    private void removeBook(){
-        
-    }
+//    private void removeBook(){  
+//    }
     
     private void endSession(){
         endSessionNext = true;
@@ -85,9 +71,9 @@ class Library {
                 getBooksRead();
             }
             else if (command.equals("end")){
-                System.out.println("OK - ending session");
+                System.out.println("OK - ending session" + "\n");
                 endSession();
-            }
+            }else{System.out.println("Didn't undertand command, try again" + "\n");}
         }
         System.out.println("Thanks for using the library! Always remember to support your local library.");
     }
